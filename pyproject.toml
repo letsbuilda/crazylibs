@@ -1,0 +1,50 @@
+[project]
+name = "crazylibs"
+version = "0.1.0"
+description = "crazylibs"
+readme = "README.md"
+authors = [{ name = "Bradley Reynolds", email = "bradley.reynolds@darbia.dev" }]
+license = { text = "MIT" }
+requires-python = ">=3.10"
+dependencies = ["typer"]
+
+[project.optional-dependencies]
+dev = ["nox", "pre-commit", "ruff", "mypy"]
+docs = ["sphinx", "furo", "sphinx-autoapi", "releases"]
+tests = ["pytest", "pytest-randomly"]
+
+[project.urls]
+repository = "https://github.com/letsbuilda/crazylibs"
+documentation = "https://docs.letsbuilda.dev/crazylibs/"
+
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.package-data]
+"crazylibs" = ["py.typed"]
+
+[tool.ruff]
+target-version = "py310"
+line-length = 120
+
+[tool.ruff.lint]
+select = ["ALL"]
+ignore = [
+    "CPY001", # (Missing copyright notice at top of file) - No license
+]
+
+[tool.ruff.lint.extend-per-file-ignores]
+"docs/*" = [
+    "INP001", # (File `docs/*.py` is part of an implicit namespace package. Add an `__init__.py`.) - Docs are not modules
+]
+"tests/*" = [
+    "INP001", # (File `tests/*.py` is part of an implicit namespace package. Add an `__init__.py`.) - Tests are not modules
+    "S101",   # (Use of `assert` detected) - Yes, that's the point
+]
+
+[tool.ruff.lint.pydocstyle]
+convention = "numpy"
+
+[tool.coverage.run]
+source = ["crazylibs"]
