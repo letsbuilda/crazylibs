@@ -5,19 +5,16 @@ on:
     types: [published]
 
 jobs:
-  build-publish:
-    name: "Build and publish Python 🐍 distributions 📦 to PyPI"
+  build:
+    name: "Build distribution 📦"
     runs-on: ubuntu-latest
-    environment: release
-    permissions:
-      id-token: write
 
     steps:
       - name: "Checkout repository"
-        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
+        uses: actions/checkout@a5ac7e51b41094c92402da3b24376905380afc29 # v4.1.6
 
       - name: "Set up Python 3.x"
-        uses: actions/setup-python@39cd14951b08e74b54015e9e001cdefcf80e669f # v5.1.1
+        uses: actions/setup-python@82c7e631bb3cdc910f68e0081d67478d79c6982d # v5.1.0
         with:
           python-version: "3.x"
           cache: "pip"
@@ -37,14 +34,30 @@ jobs:
           --outdir dist/
 
       - name: "Upload packages"
-        uses: actions/upload-artifact@0b2256b8c012f0828dc542b3febcab082c67f72b # v4.3.4
+        uses: actions/upload-artifact@65462800fd760344b1a7b4382951275a0abb4808 # v4.3.3
         with:
-          name: packages
-          path: dist
+          name: python-package-distributions
+          path: dist/
 
-      - name: "Publish distribution 📦 to PyPI"
-        uses: pypa/gh-action-pypi-publish@ec4db0b4ddc65acdf4bff5fa45ac92d78b56bdf0 # v1.9.0
-        with:
-          skip-existing: true
+  publish-to-pypi:
+    name: "Publish Python 🐍 distribution 📦 to PyPI"
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: pypi
+      url: https://pypi.org/project/crazylibs/${{ github.ref_name }}
+    permissions:
+      id-token: write
+
+    steps:
+    - name: "Download dists"
+      uses: actions/download-artifact@65a9edc5881444af0b9093a5e628f2fe47ea3b2e # v4.1.7
+      with:
+        name: python-package-distributions
+        path: dist/
+
+    - name: "Publish distribution 📦 to PyPI"
+      uses: pypa/gh-action-pypi-publish@81e9d935c883d0b210363ab89cf05f3894778450 # v1.8.14
+      with:
           verbose: true
           print-hash: true
