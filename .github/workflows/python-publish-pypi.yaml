@@ -25,12 +25,12 @@ jobs:
       - name: Build and inspect Python 🐍 package 📦
         uses: hynek/build-and-inspect-python-package@2dbbf2b252d3a3c7cec7a810e3ed5983bd17b13a # v2.8.0
         with:
-          attest-build-provenance-github: ${{ startswith(github.event.ref, 'refs/tags/') }}
+          attest-build-provenance-github: ${{ github.event.action == 'published' }}
 
   publish-to-pypi:
     name: Publish Python 🐍 distribution 📦 to PyPI
     needs: build
-    if: ${{ startswith(github.event.ref, 'refs/tags/') }}
+    if: ${{ github.event.action == 'published' }}
     runs-on: ubuntu-latest
     environment:
       name: pypi
