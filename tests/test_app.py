@@ -1,6 +1,6 @@
 """Testing the app."""
 
-from hermes.cli.main import app
+from crazylibs.cli import app
 from typer.testing import CliRunner
 
 runner = CliRunner()
