@@ -1,6 +1,6 @@
 [project]
 name = "crazylibs"
-version = "0.1.1"
+version = "0.1.2"
 description = "crazylibs"
 readme = "README.md"
 authors = [{ name = "Bradley Reynolds", email = "bradley.reynolds@darbia.dev" }]
