@@ -27,7 +27,7 @@ CLEANABLE_TARGETS = [
 @nox.session
 def install(session: nox.Session) -> None:
     """Install the project."""
-    session.run("python", "-m", "pip", "install", ".[dev,test]")
+    session.run("python", "-m", "pip", "install", ".[dev,tests]")
 
 
 @nox.session
