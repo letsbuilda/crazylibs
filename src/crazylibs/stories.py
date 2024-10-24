@@ -5,8 +5,8 @@ from pathlib import Path
 import typer
 
 
-def do_story(story_file: Path) -> None:
-    """Fun."""
+def run_story(story_file: Path) -> None:
+    """Run a story."""
     story_text = Path(story_file).read_text()
     raw_title, questions_block, template = story_text.split("---")
 

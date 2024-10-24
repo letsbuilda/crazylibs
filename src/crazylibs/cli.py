@@ -6,7 +6,7 @@ from typing import Annotated
 
 import typer
 
-from .stories import do_story
+from .stories import run_story
 
 app = typer.Typer()
 
@@ -34,4 +34,4 @@ def run_story_command(
     else:
         story_path = random.choice(list(stories_folder.glob("*.txt")))  # noqa: S311
 
-    do_story(story_path)
+    run_story(story_path)
