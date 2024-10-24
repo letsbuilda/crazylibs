@@ -1,7 +1,8 @@
 """Testing the app."""
 
-from crazylibs.cli import app
 from typer.testing import CliRunner
+
+from crazylibs.cli import app
 
 runner = CliRunner()
 
