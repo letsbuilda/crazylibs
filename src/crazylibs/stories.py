@@ -1,38 +1,30 @@
 """Story functions."""
 
 from pathlib import Path
-
+import re
 import typer
 
 
 def run_story(story_file: Path) -> None:
     """Run a story."""
-    story_text = Path(story_file).read_text()
-    raw_title, questions_block, template = story_text.split("---")
-
-    title = raw_title.strip()
-
-    question_rows = questions_block.strip().split("\n")
-    questions = {}
-    for row in question_rows:
-        index, question = row.split(":")
-        questions[index] = question.strip()
+    raw_text = Path(story_file).read_text().strip()
+    title, story_text = raw_text.split("\n", maxsplit=1)
 
     typer.echo(f'Welcome to "{title}"')
     typer.echo("")
     typer.echo("Please fill in the following words:")
 
-    context = {}
-    for index, question in questions.items():
-        context[index] = typer.prompt(question)
+    context: dict[str, str] = {}
 
-    text = template
-    for index, item in context.items():
-        text = text.replace(f"({index})", item)
+    lines = story_text.split("\n")
+    for line in lines:
+        print("oneoffs", re.findall(r"\([a-zA-Z]+\)", line))
+        print("new contexts", re.findall(r"\([a-zA-Z]+ : \d+\)", line))
+        print("existing", re.findall(r"\(\d+\)", line))
 
     typer.echo("")
     typer.echo("Wow, what a good selection of words!")
     typer.echo("Here is your story:")
     typer.echo("")
 
-    typer.echo(text)
+    # typer.echo(story_text)
